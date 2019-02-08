@@ -1,2 +1,25 @@
 ---
 # tasks file for Ansible_web
+---
+- hosts: main_node
+  user: Jenkins
+
+  tasks:
+    - name: Update apt cache
+      yum: update_cache=yes
+      sudo: yes
+
+    - name: log into docker hub
+      shell: docker login -u braverabbit -p simplepass
+
+    - name: pull image
+      shell: docker pull braverabbit/epam-exam:web-app
+
+    - name: web1
+      shell: docker run -it -p 5001:5000 --name=web1 -d braverabbit/epam-exam:web-app
+
+    - name: web2
+      shell: docker run -it -p 5002:5000 --name=web2 -d braverabbit/epam-exam:web-app
+
+    - name: web3
+      shell: docker run -it -p 5003:5000 --name=web3 -d braverabbit/epam-exam:web-app
